@@ -1,6 +1,6 @@
 # hadolint global ignore=DL3003,DL3059
 
-FROM node:lts-alpine AS build
+FROM node:20.14.0-alpine3.20 AS build
 WORKDIR /pack
 COPY . .
 RUN npm pack
@@ -12,7 +12,7 @@ RUN cd formatter-pretty && npm pack --pack-destination=..
 RUN cd formatter-sarif && npm pack --pack-destination=..
 RUN cd formatter-summarize && npm pack --pack-destination=..
 
-FROM node:lts-alpine
+FROM node:20.14.0-alpine3.20
 COPY --from=build /pack/markdownlint-cli2-*.tgz /
 RUN npm install --global --no-package-lock --production /markdownlint-cli2-*.tgz
 RUN rm /markdownlint-cli2-*.tgz
